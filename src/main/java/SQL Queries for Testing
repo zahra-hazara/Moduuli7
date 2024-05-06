@@ -1,0 +1,11 @@
+-- Query to retrieve all currencies from the database
+SELECT * FROM currencies;
+
+-- Query to retrieve the currency with the abbreviation EUR
+SELECT * FROM currencies WHERE abbreviation = 'EUR';
+
+-- Query to retrieve the number of currencies in the database
+SELECT COUNT(*) AS num_currencies FROM currencies;
+
+-- Query to retrieve the currency with the highest exchange rate
+SELECT * FROM currencies ORDER BY conversion_rate DESC LIMIT 1;
