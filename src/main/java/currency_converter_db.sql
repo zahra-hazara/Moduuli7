@@ -1,40 +1,37 @@
--- Drop previous version of the database if it exists
-DROP DATABASE IF EXISTS currency_converter_db;
+-- Drop existing database
+DROP DATABASE IF EXISTS currency_converter;
 
--- Create the database
-CREATE DATABASE currency_converter_db;
+-- Create new database
+CREATE DATABASE currency_converter;
 
--- Use the newly created database
-USE currency_converter_db;
+USE currency_converter;
 
--- Drop the user account appuser if it exists
-DROP USER IF EXISTS 'appuser'@'localhost';
-
--- Create the user account appuser
-CREATE USER 'appuser'@'localhost' IDENTIFIED BY 'your_password_here';
-
--- Grant privileges to the user account appuser
-GRANT SELECT ON currency_converter_db.* TO 'appuser'@'localhost';
-
--- Flush privileges to apply changes
-FLUSH PRIVILEGES;
-
--- Create a table for storing Currency objects
+-- Create currencies table
 CREATE TABLE currencies (
-                            id INT AUTO_INCREMENT PRIMARY KEY,
-                            abbreviation VARCHAR(10) UNIQUE,
-                            name VARCHAR(100),
-                            conversion_rate DECIMAL(10, 6)
+    abbreviation VARCHAR(3) PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    conversion_rate DECIMAL(20, 6) NOT NULL
 );
 
--- Populate the table with data
+-- Populate with sample data (exchange rates as of October 2023)
 INSERT INTO currencies (abbreviation, name, conversion_rate) VALUES
-                                                                 ('USD', 'United States Dollar', 1.0),
-                                                                 ('EUR', 'Euro', 0.845943), -- Exchange rate as of April 2024
-                                                                 ('GBP', 'British Pound Sterling', 0.735301),
-                                                                 ('JPY', 'Japanese Yen', 109.178),
-                                                                 ('CAD', 'Canadian Dollar', 1.24864),
-                                                                 ('AUD', 'Australian Dollar', 1.29502),
-                                                                 ('CHF', 'Swiss Franc', 0.924871),
-                                                                 ('CNY', 'Chinese Yuan Renminbi', 6.35841);
+('USD', 'United States Dollar', 1.000000),
+('EUR', 'Euro', 1.060000),
+('GBP', 'British Pound Sterling', 1.220000),
+('JPY', 'Japanese Yen', 0.006800),
+('AUD', 'Australian Dollar', 0.640000),
+('CAD', 'Canadian Dollar', 0.730000),
+('CHF', 'Swiss Franc', 1.120000),
+('CNY', 'Chinese Yuan', 0.140000);
+
+-- Remove existing appuser
+DROP USER IF EXISTS 'zahra'@'localhost';
+
+-- Create appuser with password
+CREATE USER 'zahra'@'localhost' IDENTIFIED BY '1234';
+
+-- Grant SELECT privilege on currencies table
+GRANT SELECT ON currency_converter.currencies TO 'zahra'@'localhost';
+
+FLUSH PRIVILEGES;
 
